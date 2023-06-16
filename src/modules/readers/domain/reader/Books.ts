@@ -1,4 +1,4 @@
-import { Book, BookDTO } from "../../../books/domain/book/Book";
+import { Book, BookDTO } from "../book/Book";
 
 export class Books {
   private books: Book[];
@@ -21,7 +21,7 @@ export class Books {
   }
 
   getAllToDTO(): BookDTO[] {
-    return this.books.map(book => Book.toJSON(book));
+    return this.books.map(book => book.toJSON());
   }
 
   get(id: string): Book | undefined {
@@ -30,7 +30,7 @@ export class Books {
 
   getToDTO(id: string): BookDTO | undefined {
     const book =  this.books?.find(book => book.id === id);
-    return !!book ? Book.toJSON(book) : undefined;
+    return !!book ? book.toJSON() : undefined;
   }
 
   add(newBook: Book): void {

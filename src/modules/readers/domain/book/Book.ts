@@ -11,15 +11,13 @@ interface IBookProps {
   gender?: Name;
 }
 
-export class BookDTO {
-  constructor(
-    readonly _id: string,
-    readonly name: string,
-    readonly readed: boolean,
-    readonly author?: string,
-    readonly rating?: number,
-    readonly gender?: string,
-  ){}
+export interface BookDTO {
+  _id?: string,
+  name: string,
+  readed: boolean,
+  author?: string,
+  rating?: number,
+  gender?: string,
 }
 
 export class Book extends Entity<IBookProps> {
@@ -34,16 +32,7 @@ export class Book extends Entity<IBookProps> {
     });
   }
 
-  static toJSON(book: Book): BookDTO {
-    return new BookDTO(
-      book._id,
-      book.name.value,
-      book.readed,
-      book.author?.value,
-      book.rating?.value,
-      book.gender?.value
-    );
-  }
+  
 
   protected constructor(props: IBookProps) {
     super(props);
@@ -87,5 +76,16 @@ export class Book extends Entity<IBookProps> {
   
   read(): void {
     this.props.readed = true;
+  }
+
+  toJSON(): BookDTO {
+    return {
+      _id: this._id,
+      name: this.name.value,
+      readed: this.readed,
+      author: this.author?.value,
+      rating: this.rating?.value,
+      gender: this.gender?.value
+    };
   }
 }

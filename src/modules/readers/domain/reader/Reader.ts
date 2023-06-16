@@ -1,6 +1,6 @@
 import { Entity } from "../../../../core/domain/Entity";
 import { Name } from "../../../_shared/domain/Name";
-import { BookDTO } from "../../../books/domain/book/Book";
+import { BookDTO } from "../book/Book";
 import { Books } from "./Books";
 import { PhoneNumber } from "./PhoneNumber";
 
@@ -11,13 +11,11 @@ interface IReaderProps {
   books: Books; 
 }
 
-export class ReaderDTO {
-  constructor(
-    readonly _id: string,
-    readonly name: string,
-    readonly phoneNumber: string,
-    readonly books: BookDTO[]
-  ) {}
+export interface ReaderDTO {
+  _id?: string;
+  name: string;
+  phoneNumber: string;
+  books?: BookDTO[]; 
 }
 
 export class Reader extends Entity<IReaderProps> {
@@ -28,15 +26,6 @@ export class Reader extends Entity<IReaderProps> {
       phoneNumber: PhoneNumber.create(readerDTO.phoneNumber),
       books: Books.create(readerDTO.books ?? [])
     })
-  }
-
-  static toJSON(reader: Reader): ReaderDTO {
-    return new ReaderDTO(
-      reader._id,
-      reader.name.value,
-      reader.phoneNumber.value,
-      reader.books.getAllToDTO()
-    )
   }
 
   protected constructor(props: IReaderProps) {
@@ -61,5 +50,14 @@ export class Reader extends Entity<IReaderProps> {
 
   get books(): Books {
     return this.props.books;
+  }
+
+  toJSON(): ReaderDTO {
+    return {
+      _id: this._id,
+      name: this.name.value,
+      phoneNumber: this.phoneNumber.value,
+      books: this.books.getAllToDTO()
+    }
   }
 }
