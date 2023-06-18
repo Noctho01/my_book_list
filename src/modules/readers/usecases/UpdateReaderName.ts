@@ -1,5 +1,5 @@
-import { Name } from "../../_shared/domain/Name";
-import { PhoneNumber } from "../domain/reader/PhoneNumber";
+import { Name } from "../domain/book/Name";
+import { PhoneNumber } from "../domain/book/PhoneNumber";
 import { IReaderRepository } from "../repositories/IReaderRepository";
 
 type UpdateReaderNameRequest = {

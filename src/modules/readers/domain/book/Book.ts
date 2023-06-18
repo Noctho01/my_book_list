@@ -1,5 +1,5 @@
 import { Entity } from "../../../../core/domain/Entity";
-import { Name } from "../../../_shared/domain/Name";
+import { Name } from "./Name";
 import { Rating } from "./Rating";
 
 interface IBookProps {
@@ -32,10 +32,8 @@ export class Book extends Entity<IBookProps> {
     });
   }
 
-  
-
   protected constructor(props: IBookProps) {
-    super(props);
+    super(props, props._id);
   }
 
   get name(): Name {

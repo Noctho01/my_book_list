@@ -1,5 +1,5 @@
-import { PhoneNumber } from "../domain/reader/PhoneNumber";
-import { ReaderDTO } from "../domain/reader/Reader";
+import { PhoneNumber } from "../domain/book/PhoneNumber";
+import { ReaderDTO } from "../domain/book/Reader";
 import { IReaderRepository } from "../repositories/IReaderRepository";
 
 type GetReaderRequest = {

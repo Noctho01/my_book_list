@@ -1,4 +1,4 @@
-import { Reader } from "../domain/reader/Reader";
+import { Reader } from "../domain/book/Reader";
 import { IReaderRepository } from "../repositories/IReaderRepository";
 
 interface ICreateReaderRequest {

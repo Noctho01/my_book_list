@@ -1,6 +1,6 @@
 import { Entity } from "../../../../core/domain/Entity";
-import { Name } from "../../../_shared/domain/Name";
-import { BookDTO } from "../book/Book";
+import { Name } from "./Name";
+import { BookDTO } from "./Book";
 import { Books } from "./Books";
 import { PhoneNumber } from "./PhoneNumber";
 
@@ -29,7 +29,7 @@ export class Reader extends Entity<IReaderProps> {
   }
 
   protected constructor(props: IReaderProps) {
-    super(props);
+    super(props, props._id);
   }
 
   get name(): Name {

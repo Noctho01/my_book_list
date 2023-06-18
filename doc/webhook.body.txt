@@ -1,0 +1,10 @@
+*** PROPRIEDADES IMPORTANTE DO CORPO DA REQUISIÇÃO NA WEBHOOK ***
+
+messageSid = id da mensagem
+messagingServiceSid = id do serviço da mensagem
+from = numero de telefone do remetente
+to = numero de telegone do destinatario
+body = corpo da mensagem
+numMedia = numero de midias associados a mensagem
+mediaContentType = tipo de midias
+mediaUrl = url da midia enviada na mensagem

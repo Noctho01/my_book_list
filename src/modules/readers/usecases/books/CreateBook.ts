@@ -1,8 +1,8 @@
-import { Book } from "../domain/book/Book";
-import { PhoneNumber } from "../domain/reader/PhoneNumber";
-import { IReaderRepository } from "../repositories/IReaderRepository";
+import { Book } from "../../domain/book/Book";
+import { PhoneNumber } from "../../domain/book/PhoneNumber";
+import { IReaderRepository } from "../../repositories/IReaderRepository";
 
-type SetBookToReaderRequest = {
+type CreateBookRequest = {
   phoneNumber: string;
   book: {
     name: string;
@@ -13,10 +13,10 @@ type SetBookToReaderRequest = {
   }
 }
 
-export class SetBookToReader {
+export class CreateBook {
   constructor(readonly readerRepository: IReaderRepository) {}
 
-  async execute({ phoneNumber, book }: SetBookToReaderRequest): Promise<void> {
+  async execute({ phoneNumber, book }:CreateBookRequest): Promise<void> {
     const validatedPhoneNumber = PhoneNumber.create(phoneNumber);
     const reader = await this.readerRepository.findByPhoneNumber(validatedPhoneNumber);
 

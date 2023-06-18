@@ -1,9 +1,9 @@
-import { Name } from "../../_shared/domain/Name";
-import { Rating } from "../domain/book/Rating";
-import { PhoneNumber } from "../domain/reader/PhoneNumber";
-import { IReaderRepository } from "../repositories/IReaderRepository";
+import { Name } from "../../domain/book/Name";
+import { Rating } from "../../domain/book/Rating";
+import { PhoneNumber } from "../../domain/book/PhoneNumber";
+import { IReaderRepository } from "../../repositories/IReaderRepository";
 
-type UpdateBookReaderRequest = {
+type UpdateBookRequest = {
   phoneNumber: string;
   book: {
     _id: string;
@@ -14,10 +14,10 @@ type UpdateBookReaderRequest = {
   }
 }
 
-export class UpdateBookReader {
+export class UpdateBook {
   constructor(readonly readerRepository: IReaderRepository) {}
   
-  async execute({ phoneNumber, book: rawBook }: UpdateBookReaderRequest): Promise<void> {
+  async execute({ phoneNumber, book: rawBook }: UpdateBookRequest): Promise<void> {
     const validatedPhoneNumber = PhoneNumber.create(phoneNumber);
     const reader = await this.readerRepository.findByPhoneNumber(validatedPhoneNumber);
     const book = reader.books.get(rawBook._id);

@@ -1,0 +1,4 @@
+*** SERVIÇO DE CONVERSAÇÃO PELO WHATSAPP ***
+
+- atualmente, mensagens bidirecionais (conversa) são possiveis atraves do recurso de conversação da twilio;
+- é necessario ter um perfil comercial aprovado pelo whatsapp (pode levar de 1 a 2 semenas);

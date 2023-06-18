@@ -1,8 +1,8 @@
-import { PhoneNumber } from "../domain/reader/PhoneNumber";
-import { Reader } from "../domain/reader/Reader";
+import { PhoneNumber } from "../domain/book/PhoneNumber";
+import { Reader } from "../domain/book/Reader";
 
 export interface IReaderRepository {
   exists(phoneNumber: PhoneNumber): Promise<boolean>;
-  findByPhoneNumber(phoneNumber: PhoneNumber): Promise<Reader>
-  save(reader: Reader): Promise<void>
+  findByPhoneNumber(phoneNumber: PhoneNumber): Promise<Reader>;
+  save(reader: Reader): Promise<void>;
 }

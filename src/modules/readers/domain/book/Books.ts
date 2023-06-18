@@ -1,4 +1,4 @@
-import { Book, BookDTO } from "../book/Book";
+import { Book, BookDTO } from "./Book";
 
 export class Books {
   private books: Book[];

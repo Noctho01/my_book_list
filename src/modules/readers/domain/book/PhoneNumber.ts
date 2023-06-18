@@ -7,7 +7,6 @@ export class PhoneNumber {
       || phoneNumber === null 
       || phoneNumber.length < 10 
       || phoneNumber.length > 17
-      || phoneNumber[0] !== '+'
     ) return false;
     return true;
   }
