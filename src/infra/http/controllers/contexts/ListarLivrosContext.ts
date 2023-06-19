@@ -18,7 +18,7 @@ type ListarLivrosContextRequest = {
 export class ListarLivrosContext implements Controller<ListarLivrosContextRequest> {
 
   static create(): ListarLivrosContext {
-    const storage = new Storage;
+    const storage = new Storage();
     const messageRepository = new InMemoryMessageRepository(storage);
     const updateMessageUseCase = new UpdateMessage(messageRepository);
     const deleteMessageUseCase = new DeleteMessage(messageRepository);
@@ -39,7 +39,7 @@ export class ListarLivrosContext implements Controller<ListarLivrosContextReques
     console.log('context listar livros');
     switch (messageDTO.step) {
       case 0: return await this.stepZeroStrategy(readerDTO);
-      case 1: return await this.stepOneStrategy(requestDTO);
+      case 1: return await this.stepOneStrategy(requestDTO, readerDTO);
       default: return internalError(Error('context step is invalid'));
     }
   }
@@ -47,34 +47,40 @@ export class ListarLivrosContext implements Controller<ListarLivrosContextReques
   private async stepZeroStrategy({ books, phoneNumber }: ReaderDTO): Promise<HttpResponse> {
     try {
       console.log('step 0')
-      let firstMessage = books!!.length > 0 ? '*📚LIVROS*' : '*NENHUM LIVRO ENCONTRADO...*';
+      const booksExists = books!!.length > 0;
+      let firstMessage =  booksExists ? '*📚LIVROS*' : '*NENHUM LIVRO ENCONTRADO...*';
       books?.forEach(book => {
         let stars = '';
         const starsNumber = book.rating ?? 0;
         for(let i = 0; i <= starsNumber; i++) {
           stars = stars + '⭐';
         }
-        firstMessage = firstMessage + `\n\n🔹${book.name} - ${book.readed ? '✔️' : '❌'} - ${stars}`;
+        firstMessage = firstMessage + `\n\n🔻${book.name} - ${book.readed ? '✅' : '💤'} - ${stars}`;
       });
       await sendMessageService(phoneNumber, firstMessage);
-      const secondMessage = 'opções:\n1️⃣ - sobre livro\n2️⃣ - adicionar livro\n3️⃣ - voltar\n4️⃣ - sair';
+      const secondMessage = `opções:\n${booksExists ? '1️⃣ - sobre livro\n' : ''}2️⃣ - adicionar livro\n3️⃣ - voltar\n4️⃣ - sair`;
       await sendMessageService(phoneNumber, secondMessage);
       await this.updateMessageUseCase.execute({ phoneNumber, step: 1 });
       return ok();
     } catch (err: any) {
+      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, volte mais tarde!');
       return internalError(err);
     }
   }
 
-  private async stepOneStrategy({ message, phoneNumber }: RequestDTO): Promise<HttpResponse> {
+  private async stepOneStrategy({ message, phoneNumber }: RequestDTO, { books }: ReaderDTO): Promise<HttpResponse> {
     try {
       console.log('step 1')
       const value = message.trim();
       switch(value) {
         case '1':
-          await this.updateMessageUseCase.execute({phoneNumber, context: 'sobre livro', step: 0});
-          await sendMessageService(phoneNumber, 'informe o nome do livro');
-          return ok();
+          if (books!!.length > 0){
+            await this.updateMessageUseCase.execute({phoneNumber, context: 'sobre livro', step: 0});
+            return reload();
+          }
+          await sendMessageService(phoneNumber, 'opção indisponivel pois não existe nenhum livro na sua lista');
+          return clientError(Error('message is invalid'));
+
         case '2':
           await this.updateMessageUseCase.execute({phoneNumber, context: 'adicionando livro', step: 0 });
           return reload();
@@ -97,6 +103,7 @@ export class ListarLivrosContext implements Controller<ListarLivrosContextReques
           return clientError(Error('message is invalid'));
       }
     } catch (err: any) {
+      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, volte mais tarde!');
       return internalError(err);
     }
   }

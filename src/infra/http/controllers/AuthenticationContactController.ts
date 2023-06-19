@@ -11,7 +11,7 @@ type AuthenticationContactControllerRequest = RequestDTO;
 export class AuthenticationContactController implements Controller<AuthenticationContactControllerRequest> {
 
   static create(): AuthenticationContactController {
-    const storage = new Storage;
+    const storage = new Storage();
     const readerRepository = new inMemoryReaderRepository(storage);
     const createReader = new CreateReader(readerRepository);
     const getReader = new GetReader(readerRepository);

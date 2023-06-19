@@ -8,8 +8,10 @@ import { ReaderDTO } from "../../../modules/readers/domain/book/Reader";
 import { CreateReader } from "../../../modules/readers/usecases/CreateReader";
 import { GetReader } from "../../../modules/readers/usecases/GetReader";
 import { sendMessageService } from "../../services/SendMessageService";
+import { AdicionarLivroContext } from "../controllers/contexts/AdicionarLivroContext";
 import { ListarLivrosContext } from "../controllers/contexts/ListarLivrosContext";
 import { MenuInicialContext } from "../controllers/contexts/MenuInicialContext";
+import { RemoverLivroContext } from "../controllers/contexts/RemoverLivroContext";
 import { SobreOLivroContext } from "../controllers/contexts/SobreOLivroContext";
 
 type ReceivingMessageRequest = {
@@ -62,6 +64,16 @@ export class ReceivingMessageWebhook implements Controller<ReceivingMessageReque
 
         case 'sobre livro':
           httpResponse = await SobreOLivroContext.create().handler({ messageDTO, readerDTO, requestDTO });
+          if (httpResponse.statusCode === 0) break;
+          return httpResponse;
+
+        case 'adicionando livro':
+          httpResponse = await AdicionarLivroContext.create().handler({ messageDTO, readerDTO, requestDTO });
+          if (httpResponse.statusCode === 0) break;
+          return httpResponse;
+
+        case 'removendo livro':
+          httpResponse = await RemoverLivroContext.create().handler({ messageDTO, readerDTO, requestDTO });
           if (httpResponse.statusCode === 0) break;
           return httpResponse;
 

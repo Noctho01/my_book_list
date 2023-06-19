@@ -34,7 +34,7 @@ export class Books {
   }
 
   add(newBook: Book): void {
-    const alreadyExist = this.books?.find(book => book.id === newBook.id);
+    const alreadyExist = this.books?.find(book => book.id === newBook.id || book.name.value === newBook.name.value);
     if (alreadyExist) throw new Error('this book already exist on this collection');
     this.books.push(newBook);
   }

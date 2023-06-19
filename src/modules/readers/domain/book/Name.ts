@@ -8,7 +8,7 @@ export class Name {
 
   static create(name: string): Name {
     if (!this.validate(name)) throw new Error('Name is invalid');
-    return new Name(name);
+    return new Name(name.trim().toUpperCase());
   }
   
   private constructor(name: string){

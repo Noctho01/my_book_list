@@ -1,16 +1,10 @@
-import { Book } from "../../domain/book/Book";
+import { Book, BookDTO } from "../../domain/book/Book";
 import { PhoneNumber } from "../../domain/book/PhoneNumber";
 import { IReaderRepository } from "../../repositories/IReaderRepository";
 
 type CreateBookRequest = {
   phoneNumber: string;
-  book: {
-    name: string;
-    readed: boolean;
-    author?: string;
-    rating?: number;
-    gender?: string;
-  }
+  book: BookDTO;
 }
 
 export class CreateBook {
