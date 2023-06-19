@@ -5,5 +5,7 @@ export async function sendMessageService(toPhoneNumber: string, message: string)
     from: `whatsapp:+${accountPhoneNumber}`,
     to: `whatsapp:+${toPhoneNumber}`,
     body: message
+  }).then(() => {
+    console.log('mensagem enviada!')
   });
 }

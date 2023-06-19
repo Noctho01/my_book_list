@@ -4,9 +4,9 @@ import { inMemoryReaderRepository } from "../../../modules/readers/repositories/
 import { CreateReader } from "../../../modules/readers/usecases/CreateReader";
 import { GetReader } from "../../../modules/readers/usecases/GetReader";
 import { Storage } from "../../database/in_memory/Storage";
-import { MessageDTO } from "../weebhooks/ReceivingMessage";
+import { RequestDTO} from "../weebhooks/ReceivingMessage";
 
-type AuthenticationContactControllerRequest = MessageDTO;
+type AuthenticationContactControllerRequest = RequestDTO;
 
 export class AuthenticationContactController implements Controller<AuthenticationContactControllerRequest> {
 
