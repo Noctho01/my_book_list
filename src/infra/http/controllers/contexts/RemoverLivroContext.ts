@@ -57,7 +57,7 @@ export class RemoverLivroContext implements Controller<RemoverLivroContextReques
       await this.updateMessageUseCase.execute({ phoneNumber, step: 1 });
       return ok();
     } catch (err: any) {
-      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, volte mais tarde!');
+      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, tente novamente ou volte mais tarde!');
       return internalError(err);
     }
   }
@@ -76,7 +76,7 @@ export class RemoverLivroContext implements Controller<RemoverLivroContextReques
       await this.updateMessageUseCase.execute({ phoneNumber, context: 'listar livros', step: 0 });
       return reload();
     } catch (err: any) {
-      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, volte mais tarde!');
+      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, tente novamente ou volte mais tarde!');
       return internalError(err);
     }
   }

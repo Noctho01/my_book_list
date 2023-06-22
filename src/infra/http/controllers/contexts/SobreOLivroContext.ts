@@ -52,7 +52,7 @@ export class SobreOLivroContext implements Controller<SobreOLivroContextRequest>
       await this.updateMessageUseCase.execute({ phoneNumber, step: 1 });
       return ok();
     } catch (err: any) {
-      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, volte mais tarde!');
+      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, tente novamente ou volte mais tarde!');
       return internalError(err);
     }
   }
@@ -89,7 +89,7 @@ export class SobreOLivroContext implements Controller<SobreOLivroContextRequest>
 
       return ok();
     } catch (err: any) {
-      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, volte mais tarde!');
+      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, tente novamente ou volte mais tarde!');
       return internalError(err);
     }
   }
@@ -127,7 +127,7 @@ export class SobreOLivroContext implements Controller<SobreOLivroContextRequest>
           return clientError(Error('message is invalid'));
       }
     } catch (err: any) {
-      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, volte mais tarde!');
+      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, tente novamente ou volte mais tarde!');
       return internalError(err);
     }
   }

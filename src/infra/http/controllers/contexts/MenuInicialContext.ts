@@ -55,12 +55,12 @@ export class MenuInicialContext implements Controller<MenuInicialContextRequest>
       console.log('step 0');
       const readeds = (books?.filter(book => !!book.readed))?.length ?? 0;
       const noReadeds = (books?.filter(book => !book.readed))?.length ?? 0;
-      const message = `Olar ${name}, bem vindo a sua lista de livros\nno whatsapp!😉\n\n✅lidos: ${readeds}\n💤pendentes: ${noReadeds}\n\nopções:\n1️⃣ - ver livros\n2️⃣ - sair`;  
+      const message = `Olar ${name}, bem vindo a sua lista de livros no whatsapp!😉\n\n- lidos: ${readeds}\n- pendentes: ${noReadeds}\n\nopções:\n1️⃣ - ver livros\n2️⃣ - sair`;  
       await sendMessageService(phoneNumber, message);
       await this.updateMessageUseCase.execute({ phoneNumber, step: 1});
       return ok();
     } catch (err: any) {
-      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, volte mais tarde!');
+      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, tente novamente ou volte mais tarde!');
       return internalError(err);
     }
   }
@@ -93,7 +93,7 @@ export class MenuInicialContext implements Controller<MenuInicialContextRequest>
           return clientError(Error('message is invalid'));
       }
     } catch (err: any) {
-      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, volte mais tarde!');
+      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, tente novamente ou volte mais tarde!');
       return internalError(err);
     }
   }

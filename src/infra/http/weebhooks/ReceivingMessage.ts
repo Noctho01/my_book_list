@@ -78,7 +78,7 @@ export class ReceivingMessageWebhook implements Controller<ReceivingMessageReque
           return httpResponse;
 
         default:
-          await sendMessageService(readerDTO.phoneNumber, '⚠️ocorreu um erro, volte mais tarde!')
+          await sendMessageService(readerDTO.phoneNumber, '⚠️ocorreu um erro, tente novamente ou volte mais tarde!')
           return internalError(Error('context is invalid'));
       }
     }

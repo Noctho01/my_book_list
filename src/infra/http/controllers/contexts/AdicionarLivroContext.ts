@@ -59,12 +59,12 @@ export class AdicionarLivroContext implements Controller<AdicionarLivroContextRe
       await this.updateMessageUseCase.execute({ phoneNumber, step: 1 });
       return ok();
     } catch (err: any) {
-      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, volte mais tarde!');
+      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, tente novamente ou volte mais tarde!');
       return internalError(err);
     }
   }
 
-  private async stepOneStrategy({ message }: RequestDTO, { books, phoneNumber }: ReaderDTO): Promise<HttpResponse> {
+  private async stepOneStrategy({ message }: RequestDTO, { phoneNumber }: ReaderDTO): Promise<HttpResponse> {
     try {
       console.log('step 0');
       const [name, ...items] = message.trim().split('-').map(value => value.trim());
@@ -83,7 +83,7 @@ export class AdicionarLivroContext implements Controller<AdicionarLivroContextRe
       await sendMessageService(phoneNumber, 'o livro foi adicionado a lista com sucesso!');
       return reload();
     } catch (err: any) {
-      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, volte mais tarde!');
+      await sendMessageService(phoneNumber, '⚠️ocorreu um erro, tente novamente ou volte mais tarde!');
       return internalError(err);
     }
   }
