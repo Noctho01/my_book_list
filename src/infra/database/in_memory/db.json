@@ -1,1 +1,29 @@
-{"readers":[{"_id":"f4168615-87e7-4575-83ff-ea7a8cad865f","name":"VANESSA FERREIRA","phoneNumber":"556184065649","books":[{"_id":"2b77957f-7ad0-46f0-8a94-ea4d114003df","name":"PAIXÃO PROIBIDA","readed":true,"author":"VANESSA","rating":4,"gender":"ROMANCE"}]},{"_id":"f9a472be-3450-4620-9c31-d4658962bffd","name":"VINICIUS","phoneNumber":"556184518363","books":[{"_id":"73f52361-59ad-4667-9943-831d1ac92b7b","name":"A ARTE DA GUERRA","readed":true,"author":"SUN TZU","rating":4,"gender":"FILOSOFIA"}]}],"messages":[]}
+{
+  "readers": [
+    {
+      "_id": "53216e6a-6ca3-44c1-b20e-868114d95af8",
+      "name": "VINICIUS",
+      "phoneNumber": "556184518363",
+      "books": [
+        {
+          "_id": "f4f55c82-17f0-4f32-9ec3-c12b06c694ae",
+          "name": "LIVRO DE TESTE",
+          "readed": false
+        }
+      ]
+    },
+    {
+      "_id": "32614b34-397e-448a-99f2-80fd1bf8961b",
+      "name": "BRANDNEWBITCH",
+      "phoneNumber": "557186692234",
+      "books": [
+        {
+          "_id": "00b4774e-ac1b-408b-8830-210d668e2591",
+          "name": "BIPOLAR",
+          "readed": false
+        }
+      ]
+    }
+  ],
+  "messages": []
+}

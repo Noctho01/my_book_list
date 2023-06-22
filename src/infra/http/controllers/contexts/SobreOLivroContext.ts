@@ -48,7 +48,7 @@ export class SobreOLivroContext implements Controller<SobreOLivroContextRequest>
   private async stepZeroStrategy({ phoneNumber }: ReaderDTO): Promise<HttpResponse> {
     try {
       console.log('step 0');
-      await sendMessageService(phoneNumber, 'informe o nome do livro');
+      await sendMessageService(phoneNumber, 'informe o numero do livro');
       await this.updateMessageUseCase.execute({ phoneNumber, step: 1 });
       return ok();
     } catch (err: any) {
@@ -60,24 +60,33 @@ export class SobreOLivroContext implements Controller<SobreOLivroContextRequest>
   private async stepOneStrategy({ message }: RequestDTO, { books, phoneNumber }:ReaderDTO): Promise<HttpResponse> {
     try {
       console.log('step 1');
-      const bookName = message.trim();
-      const bookDTO = books?.find(bookDTO => bookDTO.name.toLowerCase() === bookName.toLowerCase());
+      const bookIndex = parseInt(message.trim());
+      if (isNaN(bookIndex)) {
+        await sendMessageService(phoneNumber, 'valor invalido, por favor, informe um numero referente ao livro');
+        return clientError(Error('message is invalid'));
+      }
+
+      const bookDTO = books?.find((_, index) => index === bookIndex - 1);
+
       if (!bookDTO) {
-        await sendMessageService(phoneNumber, 'livro não encontrato, por favor informe um nome valido...');
+        await sendMessageService(phoneNumber, 'livro não encontrato, por favor informe um numero valido...');
         await this.updateMessageUseCase.execute({ phoneNumber, context: 'listar livros', step: 0 });
         return reload();
       }
+
       let stars = '';
-        const starsNumber = bookDTO.rating ?? 0;
-        for(let i = 0; i <= starsNumber; i++) {
-          stars = stars + '⭐';
-        }
-      const firstMessage = `*${bookDTO.name.toUpperCase()}*\nlido:${bookDTO.readed ? '✅' : '💤'}\nautor: ${bookDTO.author ?? '...'}\ngenero: ${bookDTO.gender ?? '...'}\nestrelas: ${stars}`;
+      const starsNumber = bookDTO.rating ?? 0;
+      for(let i = 0; i < starsNumber; i++) stars = stars + '⭐';
+      
+      const firstMessage = `*${bookDTO.name.toUpperCase()}*\n- ${bookDTO.readed ? '_lido_' : '_pendente_'}\nautor: ${bookDTO.author ?? '...'}\ngenero: ${bookDTO.gender ?? '...'}\nestrelas: ${stars}`;
+
       await sendMessageService(phoneNumber, firstMessage).then(async () => {
         const secondMessage = 'opções:\n1️⃣ - editar\n2️⃣ - remover\n3️⃣ - voltar\n4️⃣ - sair';
         await sendMessageService(phoneNumber, secondMessage);
       });
+
       await this.updateMessageUseCase.execute({ phoneNumber, step: 2 });
+
       return ok();
     } catch (err: any) {
       await sendMessageService(phoneNumber, '⚠️ocorreu um erro, volte mais tarde!');
@@ -91,8 +100,9 @@ export class SobreOLivroContext implements Controller<SobreOLivroContextRequest>
       const value = message.trim();
       switch (value) {
         case '1':
-          await this.updateMessageUseCase.execute({ phoneNumber, context: 'editando livro', step: 0 });
-          return reload();
+          await sendMessageService(phoneNumber, 'Recurso indisponivel nessa versão...');
+          //await this.updateMessageUseCase.execute({ phoneNumber, context: 'editando livro', step: 0 });
+          return ok();
 
         case '2':
           await this.updateMessageUseCase.execute({ phoneNumber, context: 'removendo livro', step: 0 })

@@ -9,6 +9,7 @@ export class Books {
   }
 
   static create(booksDTO: BookDTO[]): Books {
+    if (!this.validate(booksDTO)) throw new Error('Book is invalid');
     return new Books(booksDTO.map(bookDTO => Book.create(bookDTO)));
   }
 

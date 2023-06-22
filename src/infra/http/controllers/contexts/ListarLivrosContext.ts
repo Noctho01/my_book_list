@@ -49,13 +49,11 @@ export class ListarLivrosContext implements Controller<ListarLivrosContextReques
       console.log('step 0')
       const booksExists = books!!.length > 0;
       let firstMessage =  booksExists ? '*📚LIVROS*' : '*NENHUM LIVRO ENCONTRADO...*';
-      books?.forEach(book => {
+      books?.forEach((book, index) => {
         let stars = '';
         const starsNumber = book.rating ?? 0;
-        for(let i = 0; i <= starsNumber; i++) {
-          stars = stars + '⭐';
-        }
-        firstMessage = firstMessage + `\n\n🔻${book.name} - ${book.readed ? '✅' : '💤'} - ${stars}`;
+        for(let i = 0; i < starsNumber; i++) stars = stars + '⭐';
+        firstMessage = firstMessage + `\n\n[${index + 1}] ${book.name} - ${book.readed ? '_lido_' : '_pendente_'}`;
       });
       await sendMessageService(phoneNumber, firstMessage);
       const secondMessage = `opções:\n${booksExists ? '1️⃣ - sobre livro\n' : ''}2️⃣ - adicionar livro\n3️⃣ - voltar\n4️⃣ - sair`;

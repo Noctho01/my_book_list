@@ -13,7 +13,7 @@ export class Rating {
   }
 
   static create(rating: number): Rating {
-    if (!this.validate) throw new Error('Rating is invalid');
+    if (!this.validate(rating)) throw new Error('Rating is invalid');
     return new Rating(rating);
   }
 
